@@ -17,7 +17,7 @@ router.post("/", (req, res) => {
 })
 
 
-router.post("/{:id}", (req, res) => {
+router.put("/{:id}", (req, res) => {
 
     res.send(orgController.update());
 })

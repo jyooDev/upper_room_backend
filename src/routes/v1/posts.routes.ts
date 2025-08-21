@@ -16,11 +16,11 @@ router.post("/", (req, res) => {
     res.send(postsController.create());
 })
 
-router.put("/{:id}", (req, res) => {
+router.put("/:postId", (req, res) => {
     res.send(postsController.update());
 })
 
-router.delete("/{:id}", (req, res) => {
+router.delete("/:postId", (req, res) => {
     res.send(postsController.delete());
 })
 

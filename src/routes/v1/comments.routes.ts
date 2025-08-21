@@ -13,11 +13,11 @@ router.post("/", (req, res) => {
     res.send(commentsController.create());
 })
 
-router.put("/{:id}", (req, res) => {
+router.put("/:commentId", (req, res) => {
     res.send(commentsController.update());
 })
 
-router.delete("/{:id}", (req, res) => {
+router.delete("/:commentId", (req, res) => {
     res.send(commentsController.delete());
 })
 

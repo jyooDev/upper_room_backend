@@ -14,11 +14,11 @@ router.post("/", (req, res) => {
   res.send(usersController.create())
 });
 
-router.put("/{:id}", (req, res) => {
+router.put("/:userId", (req, res) => {
   res.send(usersController.update())
 });
 
-router.delete("/{:id}", (req, res) => {
+router.delete("/:userId", (req, res) => {
   res.send(usersController.delete())
 })
 

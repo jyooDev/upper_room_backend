@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { OrganizationController } from "../../controllers"
+import sermonRoutes from "./sermons.routes"
 
 const router = Router();
 const orgController = new OrganizationController();
@@ -17,16 +18,18 @@ router.post("/", (req, res) => {
 })
 
 
-router.put("/{:id}", (req, res) => {
+router.put("/:orgId", (req, res) => {
 
     res.send(orgController.update());
 })
 
 
-router.delete("/{:id}", (req, res) => {
+router.delete("/:orgId", (req, res) => {
 
     res.send(orgController.delete());
 })
 
+
+router.use("/:orgId/sermons/", sermonRoutes);
 
 export default router;

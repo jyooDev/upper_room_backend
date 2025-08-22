@@ -30,4 +30,10 @@ router.delete('/:sermonId', (req, res) => {
     res.send(sermonsController.delete());
 })
 
+router.get("/get-by-org/:orgId", (req, res) => {
+    res.send("GET BY ORG ID")
+})
+
+
+
 export default router;

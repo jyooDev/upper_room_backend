@@ -10,8 +10,8 @@ router.get("/", (req, res) => {
   res.send(usersController.read())
 });
 
-router.post("/", (req, res) => {
-  res.send(usersController.create())
+router.post("/", async (req, res) => {
+  res.send(await usersController.create())
 });
 
 router.put("/:userId", (req, res) => {

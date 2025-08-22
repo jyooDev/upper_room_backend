@@ -1,6 +1,12 @@
+import User from "../models/user.model"
+
 class UsersController {
-  create() {
-    return "SHOULD CREATE USER"
+  async create() {
+    console.log("CREATE USER")
+    const user = new User({ email: 'test@test.test' })
+    await user.save()
+    console.log('user =', user)
+    return user
   }
 
   read() {

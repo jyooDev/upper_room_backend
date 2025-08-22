@@ -9,5 +9,21 @@ POST http://localhost:8888/api/v1/users
 Content-Type: application/json
 
 {
-  
+  "user": {
+    "username": "jdoe",
+    "email": "jdoe@example.com",
+    "gender": "male",
+    "name": {
+      "firstName": "John",
+      "middleName": "H.",
+      "lastName": "Doe"
+    },
+    "role": "MEMBER",
+    "dob": "1990-05-15T00:00:00.000Z"
+  }
 }
+
+
+### DELETE USER
+DELETE http://localhost:8888/api/v1/users/68a8db157315cc435dfcf5f1
+Content-Type: application/json

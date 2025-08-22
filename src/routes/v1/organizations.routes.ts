@@ -28,8 +28,4 @@ router.delete("/:orgId", (req, res) => {
     res.send(orgController.delete());
 })
 
-
-
-// router.use("/:orgId/sermons/", sermonRoutes);
-
 export default router;

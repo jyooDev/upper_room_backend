@@ -3,8 +3,8 @@ class SermonsController{
         return "CREATE SERMON";
     }
 
-    read(orgId : string | undefined ){
-        return orgId ? `LIST ORG ${orgId} SERMON` : "LIST ALL SERMON";
+    read(){
+        return "LIST ALL SERMONS";
     }
 
     update(){

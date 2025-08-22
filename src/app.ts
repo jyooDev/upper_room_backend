@@ -4,6 +4,7 @@ import apiRoutes from './routes'
 
 const app = express(); // instantiate the express server
 
+app.use(express.json());
 app.use("/api", apiRoutes)
 
 app.get("/ping", (req: Request, res: Response) => {

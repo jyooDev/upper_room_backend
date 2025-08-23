@@ -1,7 +1,7 @@
-import User, { UserType } from "../models/user.model"
+import User, { IUser } from "../models/user.model"
 import NotFoundError from "../errors/NotFoundError";
 class UsersController {
-  async create(userData: UserType) {
+  async create(userData: IUser) {
     try{
       const user = await User.create(userData);
       return user;

@@ -1,7 +1,7 @@
 import { model, Schema} from 'mongoose'
 
 
-export interface UserType {
+export interface IUser {
   username: string;
   email: string;
   gender?: 'female' | 'male';
@@ -62,10 +62,10 @@ const userSchema: Schema = new Schema({
   dob:{
     type: Date,
   },
-  joinedOrganizations:{
-    type: [Number],
-    default: []
-  },
+  joinedOrganizations:[{
+    type: Schema.Types.ObjectId,
+    ref: 'Organization'
+  }],
   role: {
     type: String,
     enum: ['ORGANIZER', 'MEMBER'],
@@ -115,7 +115,7 @@ const userSchema: Schema = new Schema({
 })
 
 
-const User = model<UserType>("User", userSchema);
+const User = model<IUser>("User", userSchema);
 
 export default User
 

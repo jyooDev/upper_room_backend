@@ -1,8 +1,11 @@
+import { ObjectId } from 'mongoose';
+
 type UserRole = 'ORGANIZER' | 'MEMBER';
 
 class User {
+  _id: string;
   email: string;
-  gender: 'M' | 'F' | 'O' | null;
+  gender: 'M' | 'F' | null;
   name: {
     firstName: string | null;
     middleName: string | null;
@@ -12,8 +15,9 @@ class User {
   username: string | null;
   role: UserRole;
 
-  constructor(email: string, role: UserRole) {
-    ((this.email = email),
+  constructor(id: string, email: string, role: UserRole) {
+    ((this._id = id),
+      ((this.email = email),
       (this.gender = null),
       (this.name = {
         firstName: null,
@@ -22,7 +26,7 @@ class User {
       }),
       (this.dob = null),
       (this.username = null),
-      (this.role = role));
+      (this.role = role)));
   }
 
   toObject() {

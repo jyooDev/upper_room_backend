@@ -7,10 +7,15 @@ class UsersController {
   async create(userData: IUser) {
     try {
       console.log('userData', userData);
-      const createUser = new UserFactory(userData.email, userData.role);
+      const createUser = new UserFactory(
+        userData._id,
+        userData.email,
+        userData.role,
+      );
       const user = await User.create(createUser.toObject());
       return user;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
@@ -48,8 +53,6 @@ class UsersController {
   }
 
   async exists(email: string) {
-    console.log('email =', email);
-
     const find = await User.findOne({
       email,
     });

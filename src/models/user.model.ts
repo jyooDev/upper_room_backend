@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose';
 
 export interface IUser {
+  _id: string;
   username?: string;
   email: string;
   gender?: 'female' | 'male';
@@ -15,6 +16,10 @@ export interface IUser {
 
 const userSchema: Schema = new Schema(
   {
+    _id: {
+      type: String,
+      required: true,
+    },
     username: {
       type: String,
       required: false,

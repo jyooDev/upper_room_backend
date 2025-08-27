@@ -5,7 +5,6 @@ const router = Router();
 const usersController = new UsersController();
 
 router.get('/{/:userId}', async (req, res) => {
-  console.log('userId =', req.params.userId);
   const { userId } = req.params;
   try {
     const getUsers = await usersController.read(userId);
@@ -20,11 +19,10 @@ router.get('/{/:userId}', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    console.log(req.body);
     const userReq = req.body.user;
-    console.log('IN ROUTE ', userReq);
-    const { email, role = 'MEMBER' } = userReq;
+    const { _id, email, role = 'MEMBER' } = userReq;
     const createUser = await usersController.create({
+      _id,
       email,
       role,
     });
@@ -58,10 +56,7 @@ router.delete('/:userId', async (req, res) => {
 
 router.get('/exists', async (req, res) => {
   const email = req.query.email as string;
-  console.log('email =', email);
   const doesExist = await usersController.exists(email);
-  // const email = req.query.email;
-  // const doesExist = await usersController.exists(email);
   res.send(doesExist || false);
 });
 

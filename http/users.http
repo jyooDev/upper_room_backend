@@ -1,25 +1,16 @@
 
 ### GET REQUEST
 
-GET http://localhost:8888/api/v1/users
+GET http://localhost:8888/api/v1/users/68ae5ccaeb2dcae31f
 
 ### CREATE USER
-
 POST http://localhost:8888/api/v1/users
 Content-Type: application/json
 
 {
   "user": {
-    "username": "jdoe",
     "email": "jdoe@example.com",
-    "gender": "male",
-    "name": {
-      "firstName": "John",
-      "middleName": "H.",
-      "lastName": "Doe"
-    },
-    "role": "MEMBER",
-    "dob": "1990-05-15T00:00:00.000Z"
+    "role": "MEMBER"
   }
 }
 
@@ -27,3 +18,6 @@ Content-Type: application/json
 ### DELETE USER
 DELETE http://localhost:8888/api/v1/users/68a8db157315cc435dfcf5f1
 Content-Type: application/json
+
+### EXISTS
+GET http://localhost:8888/api/v1/users/exists?email=test@example.com

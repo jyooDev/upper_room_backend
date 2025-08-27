@@ -1,56 +1,68 @@
 import { Router } from 'express';
 
 import { UsersController } from '../../controllers';
-import { UserType } from '../../models/user.model';
 const router = Router();
-const usersController = new UsersController()
+const usersController = new UsersController();
 
-router.get("/", async (req, res) => {
-  try{
-    const getUsers = await usersController.read();
-    res.status(201).send({ users: getUsers, message: `Successfully fetched all users.`});
-  }catch(error){
-    res.status(400).send({ error: error, message: `Failed to get users.`})
+router.get('/{/:userId}', async (req, res) => {
+  console.log('userId =', req.params.userId);
+  const { userId } = req.params;
+  try {
+    const getUsers = await usersController.read(userId);
+
+    res
+      .status(201)
+      .send({ users: getUsers, message: `Successfully fetched all users.` });
+  } catch (error) {
+    res.status(400).send({ error: error, message: `Failed to get users.` });
   }
 });
 
-router.post("/", async (req, res) => {
-  try{
+router.post('/', async (req, res) => {
+  try {
     console.log(req.body);
     const userReq = req.body.user;
-    console.log(userReq);
-    const newUser: UserType = {
-      username: userReq.username,
-      email: userReq.email,
-      gender: userReq.gender,
-      name: {
-        firstName: userReq.name.firstName,
-        middleName: userReq.name.middleName,
-        lastName: userReq.name.lastName
-      },
-      role: userReq.role,
-      dob: new Date(userReq.dob),
-    };
-    const createUser = await usersController.create(newUser);
-    res.status(201).send({ user: createUser, message: "Successfully created new user."});
-  }catch(error){
-    res.status(400).send({ error: error, message: "Failed to create user"});
+    console.log('IN ROUTE ', userReq);
+    const { email, role = 'MEMBER' } = userReq;
+    const createUser = await usersController.create({
+      email,
+      role,
+    });
+    res
+      .status(201)
+      .send({ user: createUser, message: 'Successfully created new user.' });
+  } catch (error) {
+    res.status(400).send({ error: error, message: 'Failed to create user' });
   }
 });
 
-router.put("/:userId", (req, res) => {
-  res.send(usersController.update())
+router.put('/:userId', (req, res) => {
+  res.send(usersController.update());
 });
 
-router.delete("/:userId", async (req, res) => {
+router.delete('/:userId', async (req, res) => {
   const userId = req.params.userId;
-  try{
+  try {
     const deleteUser = await usersController.delete(userId);
-    res.status(201).send({message: `Successfully deleted user ${userId}`, user: deleteUser})
-  }catch(error){
+    res.status(201).send({
+      message: `Successfully deleted user ${userId}`,
+      user: deleteUser,
+    });
+  } catch (error) {
     console.log(error);
-    res.status(400).send({message: `Failed to delete user ${userId}`, error : error})
+    res
+      .status(400)
+      .send({ message: `Failed to delete user ${userId}`, error: error });
   }
-})
+});
 
-export default router
+router.get('/exists', async (req, res) => {
+  const email = req.query.email as string;
+  console.log('email =', email);
+  const doesExist = await usersController.exists(email);
+  // const email = req.query.email;
+  // const doesExist = await usersController.exists(email);
+  res.send(doesExist || false);
+});
+
+export default router;

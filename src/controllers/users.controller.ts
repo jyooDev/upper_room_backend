@@ -1,39 +1,60 @@
-import User, { IUser } from "../models/user.model"
-import NotFoundError from "../errors/NotFoundError";
+import User, { IUser } from '../models/user.model';
+import NotFoundError from '../errors/NotFoundError';
+
+import UserFactory from '../factories/user.factory';
+
 class UsersController {
   async create(userData: IUser) {
-    try{
-      const user = await User.create(userData);
+    try {
+      console.log('userData', userData);
+      const createUser = new UserFactory(userData.email, userData.role);
+      const user = await User.create(createUser.toObject());
       return user;
-    }catch(error){
+    } catch (error) {
       throw error;
     }
   }
 
-  async read() {
-    try{
-      const users = await User.find()
-      return users
-    }catch(error){
+  async read(userId?: string) {
+    try {
+      if (userId) {
+        const user = await User.findById(userId).exec();
+        if (!user) throw NotFoundError;
+        return user;
+      }
+
+      const users = await User.find();
+      return users;
+    } catch (error) {
+      if (error === NotFoundError) return null;
       throw error;
     }
   }
 
   update() {
-    return "SHOULD UPDATE USER"
+    return 'SHOULD UPDATE USER';
   }
 
-  async delete(userId: String) {
-    try{
-      const user = await User.deleteOne({_id: userId});
-      if(user.deletedCount === 0){
+  async delete(userId: string) {
+    try {
+      const user = await User.deleteOne({ _id: userId });
+      if (user.deletedCount === 0) {
         throw new NotFoundError(`User ${userId} Not Found.`);
       }
       return user;
-    }catch(error){
+    } catch (error) {
       throw error;
     }
   }
+
+  async exists(email: string) {
+    console.log('email =', email);
+
+    const find = await User.findOne({
+      email,
+    });
+    return find;
+  }
 }
 
-export default UsersController
+export default UsersController;

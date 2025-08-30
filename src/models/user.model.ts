@@ -4,7 +4,7 @@ export interface IUser {
   _id: string;
   username?: string;
   email: string;
-  gender?: 'female' | 'male';
+  gender?: 'F' | 'M';
   name?: {
     firstName: string;
     middleName?: string;
@@ -40,7 +40,7 @@ const userSchema: Schema = new Schema(
     },
     gender: {
       type: String,
-      enum: ['female', 'male'],
+      enum: ['F', 'M'],
       required: false,
     },
     name: {

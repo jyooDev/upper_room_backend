@@ -34,9 +34,9 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:userId', (req, res) => {
-  res.send(usersController.update());
-});
+// router.put('/:userId', (req, res) => {
+//   res.send(usersController.update());
+// });
 
 router.delete('/:userId', async (req, res) => {
   const userId = req.params.userId;
@@ -59,5 +59,7 @@ router.get('/exists', async (req, res) => {
   const doesExist = await usersController.exists(email);
   res.send(doesExist || false);
 });
+
+router.put('/set-profile/:userId', usersController.update);
 
 export default router;

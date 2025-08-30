@@ -36,8 +36,31 @@ class UsersController {
     }
   }
 
-  update() {
-    return 'SHOULD UPDATE USER';
+  async update(req, res, next) {
+    try {
+      const userId = req.params.userId;
+      const { name, dob, gender, username } = req.body.userProfile;
+      if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { name, dob, gender, username },
+        { new: true, runValidators: true },
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      res
+        .status(200)
+        .json({ message: 'Profile updated successfully', user: updatedUser });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      next(error);
+    }
   }
 
   async delete(userId: string) {

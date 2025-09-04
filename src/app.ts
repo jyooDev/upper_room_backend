@@ -2,6 +2,7 @@ import express, { type Request, type Response } from 'express'; // import expres
 import cors from 'cors';
 
 import apiRoutes from './routes';
+import { errorHandler } from './middlewares';
 
 const app = express(); // instantiate the express server
 
@@ -12,5 +13,7 @@ app.use('/api', apiRoutes);
 app.get('/ping', (req: Request, res: Response) => {
   res.send('pong from Jinah');
 });
+
+app.use(errorHandler);
 
 export default app;

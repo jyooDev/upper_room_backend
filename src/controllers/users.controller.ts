@@ -6,16 +6,17 @@ import UserFactory from '../factories/user.factory';
 class UsersController {
   async create(userData: IUser) {
     try {
-      console.log('userData', userData);
       const createUser = new UserFactory(
         userData._id,
         userData.email,
         userData.role,
       );
       const user = await User.create(createUser.toObject());
-      return user;
+      return {
+        user,
+        message: 'User created successfully',
+      };
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
@@ -24,42 +25,52 @@ class UsersController {
     try {
       if (userId) {
         const user = await User.findById(userId).exec();
-        if (!user) throw NotFoundError;
-        return user;
+        if (!user) {
+          throw new NotFoundError(`User ${userId} Not Found.`);
+        }
+        return {
+          user,
+          message: `Successfully fetched one user.`,
+        };
       }
 
       const users = await User.find();
-      return users;
+      return {
+        users,
+        message: `Successfully fetched all users`,
+      };
     } catch (error) {
-      if (error === NotFoundError) return null;
       throw error;
     }
   }
 
-  async update(req, res, next) {
+  async update(
+    userId: string,
+    {
+      name,
+      dob,
+      gender,
+      username,
+    }: { name: string; dob?: Date; gender?: string; username?: string },
+  ) {
     try {
-      const userId = req.params.userId;
-      const { name, dob, gender, username } = req.body.userProfile;
       if (!userId) {
-        return res.status(400).json({ message: 'User ID is required' });
+        throw new Error('UserID is required');
       }
 
-      const updatedUser = await User.findByIdAndUpdate(
+      const user = await User.findByIdAndUpdate(
         userId,
         { name, dob, gender, username },
         { new: true, runValidators: true },
       );
 
-      if (!updatedUser) {
-        return res.status(404).json({ message: 'User not found' });
+      if (!user) {
+        throw new NotFoundError('User not found');
       }
 
-      res
-        .status(200)
-        .json({ message: 'Profile updated successfully', user: updatedUser });
+      return { message: 'Profile updated successfully', user };
     } catch (error) {
-      console.error('Error updating user:', error);
-      next(error);
+      throw error;
     }
   }
 
@@ -69,17 +80,26 @@ class UsersController {
       if (user.deletedCount === 0) {
         throw new NotFoundError(`User ${userId} Not Found.`);
       }
-      return user;
+      return {
+        user,
+        message: `Successfully deleted user ${userId}`,
+      };
     } catch (error) {
       throw error;
     }
   }
 
   async exists(email: string) {
-    const find = await User.findOne({
-      email,
-    });
-    return find;
+    console.log(email);
+    try {
+      const find = await User.findOne({
+        email,
+      });
+      console.log(find);
+      return find || false;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

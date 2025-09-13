@@ -74,6 +74,24 @@ class UsersController {
     }
   }
 
+  async updateLastLogin(userId: string) {
+    try {
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { lastLogin: new Date() },
+        { new: true, runValidators: true },
+      );
+
+      if (!user) {
+        throw new NotFoundError('User not found');
+      }
+
+      return { message: 'Last login updated successfully', user };
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async delete(userId: string) {
     try {
       const user = await User.deleteOne({ _id: userId });
@@ -95,7 +113,6 @@ class UsersController {
       const find = await User.findOne({
         email,
       });
-      console.log(find);
       return find || false;
     } catch (error) {
       throw error;

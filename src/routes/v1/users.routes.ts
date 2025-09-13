@@ -65,4 +65,14 @@ router.put('/set-profile/:userId', async (req, res, next) => {
   }
 });
 
+router.put('/lastLogin/:userId', async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const result = await usersController.updateLastLogin(userId);
+    res.status(201).send(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

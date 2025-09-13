@@ -1,13 +1,30 @@
 import { Router } from 'express';
 
 import { UsersController } from '../../controllers';
+
 const router = Router();
 const usersController = new UsersController();
 
-router.get('/{/:userId}', async (req, res, next) => {
+router.get('/exists', async (req, res, next) => {
+  try {
+    const email = req.query.email as string;
+    console.log('email');
+    const result = await usersController.exists(email);
+    res.status(201).send(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/{:userId}', async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const result = await usersController.read(userId);
+    let result = null;
+    if (userId) {
+      result = await usersController.read(userId);
+    } else {
+      result = await usersController.read();
+    }
     res.status(201).send(result);
   } catch (error) {
     next(error);
@@ -37,17 +54,6 @@ router.delete('/:userId', async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const result = await usersController.delete(userId);
-    res.status(201).send(result);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/exists', async (req, res, next) => {
-  try {
-    const email = req.query.email as string;
-    console.log(email);
-    const result = await usersController.exists(email);
     res.status(201).send(result);
   } catch (error) {
     next(error);

@@ -1,49 +1,58 @@
-import { model, Schema} from 'mongoose'
-
+import { model, Schema } from 'mongoose';
 
 export interface IOrganization {
-    organizer: string;
-    pastor?: string;
-    managers?: [string];
-    name: string;
-    denomincation: string;
-    members?: [string];
-}   
+  organizer: string;
+  pastor?: string;
+  managers?: [string];
+  name: string;
+  denomination: Schema.Types.ObjectId;
+  members?: [string];
+  logoURL?: string;
+}
 
-
-const orgSchema = new Schema({
+const orgSchema = new Schema(
+  {
     organizer: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        require: true,
+      type: String,
+      ref: 'User',
+      require: true,
     },
-    pastor: { 
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+    pastor: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
-    managers: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    name: {
+    managers: [
+      {
         type: String,
-        require: true
+        ref: 'User',
+      },
+    ],
+    name: {
+      type: String,
+      require: true,
     },
-    denomination:{
-        type: Schema.Types.ObjectId,
-        ref: 'Demonination'
+    denomination: {
+      type: Schema.Types.ObjectId,
+      ref: 'Demonination',
     },
-    members: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }],
+    members: [
+      {
+        type: String,
+        ref: 'User',
+      },
+    ],
+    logoURL: {
+      type: String,
+    },
     deletedAt: {
-        type: Date,
-        default: null
-    }
-}, {
-    timestamps: true
-})
+      type: Date,
+      default: null,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 const Organization = model<IOrganization>('Organization', orgSchema);
 

@@ -1,9 +1,12 @@
 import { Router } from 'express';
 
 import { UsersController } from '../../controllers';
+import { verifyToken } from '../../middlewares';
 
 const router = Router();
 const usersController = new UsersController();
+
+router.use(verifyToken);
 
 router.get('/exists', async (req, res, next) => {
   try {

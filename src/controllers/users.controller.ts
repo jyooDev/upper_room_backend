@@ -108,7 +108,6 @@ class UsersController {
   }
 
   async exists(email: string) {
-    console.log(email);
     try {
       const find = await User.findOne({
         email,

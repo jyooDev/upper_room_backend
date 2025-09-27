@@ -1,78 +1,83 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
-export interface IPost{
-/* _id
-Content: { title, description, media }
-Stats: { likes, comments, views }
-Author: userId | organizationId
-postType: PRAYER_REQUEST | EVENT | MISSION_UPDATE | DAILY | TESTIMONY
-createdAt
-updatedAt
-deletedAt
- */
-    content: {
-        title: string,
-        description: string,
-        media: [string]
-    },
-    stats: {
-        likes: number,
-        comments: [string]
-        views: number,
-    }
-    author: string,
-    postBy: string,
-    postType: string
-    visibility : 'PUBLIC' | 'PRIVATE'
+export interface IPost {
+  content: {
+    title: string;
+    description?: string;
+    media?: string[];
+  };
+  stats: {
+    likes: number;
+    comments: string[];
+    views: number;
+  };
+  author: string;
+  postType:
+    | 'PRAYER_REQUEST'
+    | 'EVENT'
+    | 'MISSION_UPDATE'
+    | 'DAILY'
+    | 'TESTIMONY';
+  visibility: 'PUBLIC' | 'PRIVATE';
+  organizationId?: string | null;
 }
 
-
-const postSchema = new Schema({
-    content : {
-        title: {
-            type: String,
-            required: true
-        },
-        description : {
-            type: String,
-            default: null
-        },
-        media: [{type: String}]
+const postSchema = new Schema(
+  {
+    content: {
+      title: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        default: null,
+      },
+      media: [{ type: String }],
     },
     stats: {
-        likes: {
-            type: Number,
-            default: 0
+      likes: {
+        type: Number,
+        default: 0,
+      },
+      views: {
+        type: Number,
+        default: 0,
+      },
+      comments: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Comment',
         },
-        views: {
-            type: Number,
-            default: 0
-        },
-        comments: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Comment'
-        }]
+      ],
     },
     author: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
     postType: {
-        type: String,
-        enum: ['PRAYER_REQUEST', 'EVENT', 'MISSION_UPDATE', 'DAILY', 'TESTIMONY'],
-        required: true
+      type: String,
+      enum: ['PRAYER_REQUEST', 'EVENT', 'MISSION_UPDATE', 'DAILY', 'TESTIMONY'],
+      required: true,
     },
     visibility: {
-        type: String,
-        enum: ['PUBLIC', 'PRIVATE']
+      type: String,
+      enum: ['PUBLIC', 'PRIVATE'],
+    },
+    organizationId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Organization',
+      required: false,
     },
     deletedAt: {
-        type: Date,
-        default: null
-    }
-}, {
-    timestamps: true
-})
+      type: Date,
+      default: null,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-
-export const Post = model<IPost>('Post', postSchema);
+const Post = model<IPost>('Post', postSchema);
+export default Post;

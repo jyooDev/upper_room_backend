@@ -1,21 +1,26 @@
-class PostsController{
-    create(){
-        return "CREATE POST";
-    }
+import Post, { IPost } from '../models/post.model';
+import Logger from '../utils/logger';
 
-    read(){
-        return "LIST POST";
-    }
+const logger = new Logger('/src/controllers/posts.controller.ts');
 
-    update(){
-        return "UPDATE POST";
-    }
+class PostsController {
+  async create(postPayload: IPost) {
+    // const post = await Post.create(postPayload);
+    logger.debug('POST: ', postPayload);
+    return 'CREATE POST';
+  }
 
-    delete(){
-        return "DELETE PSOT";
-    }
+  read() {
+    return 'LIST POST';
+  }
 
+  update() {
+    return 'UPDATE POST';
+  }
+
+  delete() {
+    return 'DELETE PSOT';
+  }
 }
-
 
 export default PostsController;

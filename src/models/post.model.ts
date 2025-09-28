@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Types, Schema } from 'mongoose';
 
 export interface IPost {
   content: {
@@ -52,7 +52,7 @@ const postSchema = new Schema(
       ],
     },
     author: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'User',
     },
     postType: {

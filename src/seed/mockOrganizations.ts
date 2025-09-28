@@ -1,7 +1,7 @@
 import Organization, { IOrganization } from '../models/organization.model';
 import connectDB from '../config/connect-db';
 import { disconnect } from 'mongoose';
-import mongoose from 'mongoose';
+import { Types } from 'mongoose';
 // export interface IOrganization {
 //     organizer: string;
 //     pastor?: string;
@@ -11,14 +11,22 @@ import mongoose from 'mongoose';
 //     members?: [string];
 // }
 
-const organizations: [IOrganization] = [
+const organizations: IOrganization[] = [
   {
-    organizer: 'RaX8OLgQoEVn9G5pBWwdn2T8fVH3',
+    organizer: 'mFxEx0iSyfX9D4pM3DC2ldp7ifu2',
     name: 'Young Adult Ministry',
-    denomination: new mongoose.Types.ObjectId('68c0ca2bb653857d1a414a98'),
+    denomination: new Types.ObjectId('68c0ca2bb653857d1a414a98'),
     logoURL:
-      'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjAzMjFfMjQ0%2FMDAxNjQ3ODQxNzYxNTcy.NwhMIsFFHs-a7NjxSTZAQvX9C59aHv5VuxZ1Nb4UAYcg.ih32G-R66cZRXcv7y3JjWGf6Vb_eNDCYN4gJU-p0pUsg.JPEG.network5891%2F%25B4%25EB%25C3%25B5%25BC%25D2%25B8%25C1%25B0%25A8%25B8%25AE.jpg&type=sc960_832',
-    memberss: ['mFxEx0iSyfX9D4pM3DC2ldp7ifu2'],
+      'https://southerncharmdesign.co/wp-content/uploads/2018/05/YoungAdultMinisty_Logo_2.jpg',
+    memberss: ['RaX8OLgQoEVn9G5pBWwdn2T8fVH3'],
+  },
+  {
+    organizer: '녹동감리교회',
+    name: 'Young Adult Ministry',
+    denomination: new Types.ObjectId('68c0ca2bb653857d1a414a98'),
+    logoURL:
+      'https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2F20110126_1%2Fboramadok_1296005146489TKMjh_jpg%2F%25B0%25A8%25B8%25AE%25B1%25B3%25B8%25B6%25C5%25A9_boramadok.jpg&type=sc960_832',
+    memberss: ['RaX8OLgQoEVn9G5pBWwdn2T8fVH3'],
   },
 ];
 

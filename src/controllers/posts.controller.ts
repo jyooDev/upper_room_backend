@@ -1,13 +1,22 @@
 import Post, { IPost } from '../models/post.model';
 import Logger from '../utils/logger';
-
+import { Types } from 'mongoose';
 const logger = new Logger('/src/controllers/posts.controller.ts');
 
 class PostsController {
   async create(postPayload: IPost) {
-    // const post = await Post.create(postPayload);
-    logger.debug('POST: ', postPayload);
-    return 'CREATE POST';
+    try {
+      logger.debug(postPayload.author);
+      if (postPayload.organizationId) {
+      }
+      const post = await Post.create(postPayload);
+      return {
+        post,
+        message: `Post (${post._id}) created successfully.`,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   read() {

@@ -1,10 +1,8 @@
 import { Router } from 'express';
 
 import { OrganizationController } from '../../controllers';
-import sermonRoutes from './sermons.routes';
 import Logger from '../../utils/logger';
 import { InvalidParameterError } from '../../errors';
-import User from '../../models/user.model';
 
 const router = Router();
 const orgController = new OrganizationController();

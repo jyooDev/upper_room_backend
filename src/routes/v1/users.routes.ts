@@ -22,10 +22,10 @@ router.get('/exists', async (req, res, next) => {
   }
 });
 
-router.get('/{:userId}', async (req, res, next) => {
+router.get('{/:userId}', async (req, res, next) => {
   try {
     const { userId } = req.params;
-    logger.debug(`GET /api/v1/users/exists/userId=${userId}`);
+    logger.debug(`GET /api/v1/users/exists/${userId}`);
     let result = null;
     if (userId) {
       result = await usersController.read(userId);

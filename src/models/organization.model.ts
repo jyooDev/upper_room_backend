@@ -18,7 +18,7 @@ const orgSchema = new Schema(
       require: true,
     },
     pastor: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'User',
     },
     managers: [

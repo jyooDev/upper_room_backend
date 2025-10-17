@@ -52,7 +52,7 @@ const postSchema = new Schema(
       ],
     },
     author: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'User',
     },
     postType: {

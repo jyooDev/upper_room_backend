@@ -7,8 +7,19 @@ const router = Router();
 const postsController = new PostsController();
 const logger = new Logger('/src/routes/v1/posts.routes.ts');
 
-router.get('/', (req, res) => {
-  res.send(postsController.read());
+router.get('/', async (req, res, next) => {
+  let result;
+  const { orgId } = req.query;
+  try {
+    if (orgId && typeof orgId === 'string' && orgId.trim() !== '') {
+      result = await postsController.readByOrganization(orgId); // organization posts
+    } else {
+      result = await postsController.read(); //all posts
+    }
+    return res.status(202).send(result);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post('/', async (req, res, next) => {

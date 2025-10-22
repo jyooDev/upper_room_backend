@@ -12,6 +12,7 @@ export interface IUser {
   };
   role: 'ORGANIZER' | 'MEMBER';
   dob?: Date;
+  avatar?: string;
 }
 
 const userSchema: Schema = new Schema(
@@ -85,6 +86,7 @@ const userSchema: Schema = new Schema(
       type: Date,
       default: null,
     },
+    avatar: { type: String, default: null },
   },
   {
     timestamps: true,

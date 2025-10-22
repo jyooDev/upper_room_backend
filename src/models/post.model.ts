@@ -11,7 +11,11 @@ export interface IPost {
     comments: string[];
     views: number;
   };
-  author: string;
+  author: {
+    _id: string;
+    name: string;
+    avatar?: string | null;
+  };
   postType:
     | 'PRAYER_REQUEST'
     | 'EVENT'
@@ -52,8 +56,9 @@ const postSchema = new Schema(
       ],
     },
     author: {
-      type: String,
-      ref: 'User',
+      _id: { type: String, required: true },
+      name: { type: String, required: true },
+      avatar: { type: String, default: null },
     },
     postType: {
       type: String,

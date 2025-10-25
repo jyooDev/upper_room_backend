@@ -2,7 +2,7 @@ import connectDB from '../config/connect-db';
 import { disconnect } from 'mongoose';
 import Post from '../models/post.model.js';
 
-const ORG_ID = '68c0cc3d33e841533cd8cadb'; // your test org ID
+const ORG_ID = '68d84f27d9c93cabd1fa7992'; // your test org ID
 
 const mockPosts = [
   {
@@ -13,7 +13,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e'],
     },
     stats: { likes: 23, views: 150, comments: [] },
-    author: 'Pastor Kim',
+    author: {
+      _id: 'RaX8OLgQoEVn9G5pBWwdn2T8fVH3',
+      name: 'jinah yoo',
+      avatar: null,
+    },
     postType: 'EVENT',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,
@@ -26,7 +30,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1500530855697-b586d89ba3ee'],
     },
     stats: { likes: 41, views: 230, comments: [] },
-    author: 'Jane Park',
+    author: {
+      _id: 'mFxEx0iSyfX9D4pM3DC2ldp7ifu2',
+      name: 'sam yoon',
+      avatar: null,
+    },
     postType: 'DAILY',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,
@@ -39,7 +47,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1500534314209-a25ddb2bd429'],
     },
     stats: { likes: 12, views: 90, comments: [] },
-    author: 'Mission Dept',
+    author: {
+      _id: 'RaX8OLgQoEVn9G5pBWwdn2T8fVH3',
+      name: 'jinah yoo',
+      avatar: null,
+    },
     postType: 'PRAYER_REQUEST',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,
@@ -52,7 +64,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1535713875002-d1d0cf377fde'],
     },
     stats: { likes: 78, views: 510, comments: [] },
-    author: 'Eunice Lee',
+    author: {
+      _id: 'mFxEx0iSyfX9D4pM3DC2ldp7ifu2',
+      name: 'sam yoon',
+      avatar: null,
+    },
     postType: 'TESTIMONY',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,
@@ -65,7 +81,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91'],
     },
     stats: { likes: 33, views: 280, comments: [] },
-    author: 'Worship Team',
+    author: {
+      _id: 'RaX8OLgQoEVn9G5pBWwdn2T8fVH3',
+      name: 'jinah yoo',
+      avatar: null,
+    },
     postType: 'EVENT',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,
@@ -78,7 +98,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e'],
     },
     stats: { likes: 22, views: 200, comments: [] },
-    author: 'John Park',
+    author: {
+      _id: 'mFxEx0iSyfX9D4pM3DC2ldp7ifu2',
+      name: 'sam yoon',
+      avatar: null,
+    },
     postType: 'DAILY',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,
@@ -91,7 +115,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1606788075761-41d0a0c2f6df'],
     },
     stats: { likes: 55, views: 420, comments: [] },
-    author: 'Mission Dept',
+    author: {
+      _id: 'RaX8OLgQoEVn9G5pBWwdn2T8fVH3',
+      name: 'jinah yoo',
+      avatar: null,
+    },
     postType: 'MISSION_UPDATE',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,
@@ -104,7 +132,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4'],
     },
     stats: { likes: 0, views: 10, comments: [] },
-    author: 'Admin',
+    author: {
+      _id: 'mFxEx0iSyfX9D4pM3DC2ldp7ifu2',
+      name: 'sam yoon',
+      avatar: null,
+    },
     postType: 'EVENT',
     visibility: 'PRIVATE',
     organizationId: ORG_ID,
@@ -117,7 +149,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d'],
     },
     stats: { likes: 91, views: 680, comments: [] },
-    author: 'Grace Min',
+    author: {
+      _id: 'RaX8OLgQoEVn9G5pBWwdn2T8fVH3',
+      name: 'jinah yoo',
+      avatar: null,
+    },
     postType: 'TESTIMONY',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,
@@ -130,7 +166,11 @@ const mockPosts = [
       media: ['https://images.unsplash.com/photo-1502136969935-8d0715a6271d'],
     },
     stats: { likes: 44, views: 330, comments: [] },
-    author: 'Pastor Kim',
+    author: {
+      _id: 'mFxEx0iSyfX9D4pM3DC2ldp7ifu2',
+      name: 'sam yoon',
+      avatar: null,
+    },
     postType: 'DAILY',
     visibility: 'PUBLIC',
     organizationId: ORG_ID,

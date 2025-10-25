@@ -1,40 +1,49 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
-export interface IComment{
-    comment: string;
-    author: string;
-    stats: {
-        likes: number,
-    };
+export interface IComment {
+  comment: string;
+  author: string;
+  stats: {
+    likes: number;
+  };
+  likedBy?: string[];
 }
 
-
-const commentSchema = new Schema({
-    post : {
-        type: Schema.Types.ObjectId,
-        ref: 'Post'
+const commentSchema = new Schema(
+  {
+    post: {
+      type: Schema.Types.ObjectId,
+      ref: 'Post',
     },
     comment: {
-        type: String,
-        require: true
+      type: String,
+      require: true,
     },
     author: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+      type: String,
+      ref: 'User',
     },
     stats: {
-        likes:{
-            type: Number,
-            default: 0
-        }
+      likes: {
+        type: Number,
+        default: 0,
+      },
     },
+    likedBy: [
+      {
+        type: String,
+        ref: 'User',
+      },
+    ],
     deletedAt: {
-        type: Date,
-        default: null
-    }
-}, 
-{
-    timestamps: true
-})
+      type: Date,
+      default: null,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-export const Comment = model<IComment>('Comment', commentSchema);
+const Comment = model<IComment>('Comment', commentSchema);
+export default Comment;

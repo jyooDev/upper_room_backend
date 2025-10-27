@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose';
 
 export interface IComment {
+  post: string;
   comment: string;
   author: string;
   stats: {

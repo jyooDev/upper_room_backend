@@ -40,7 +40,7 @@ router.get('/is-liked', async (req, res, next) => {
 });
 
 router.put('/update-like', async (req, res, next) => {
-  const { commentId, userId } = req.query;
+  const { commentId, userId } = req.body.params;
   try {
     if (!(commentId && userId))
       throw new InvalidParameterError('Parameters are invalid');

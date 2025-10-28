@@ -7,7 +7,7 @@ export interface IComment {
   stats: {
     likes: number;
   };
-  likedBy?: string[];
+  likedBy: string[];
 }
 
 const commentSchema = new Schema(

@@ -1,3 +1,4 @@
+import NotFoundError from '../errors/NotFoundError';
 import Comment, { IComment } from '../models/comment.model';
 import Logger from '../utils/logger';
 
@@ -39,8 +40,45 @@ class CommentsController {
           isLiked: true,
         };
       }
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   }
+
+  async updateLike(commentId: string, userId: string) {
+    try {
+      const comment = await Comment.findById(commentId);
+      if (!comment) throw new NotFoundError(`Comment ${commentId} not found.`);
+
+      const hasLiked = comment.likedBy.some(
+        (id: any) => String(id) === String(userId),
+      );
+      let updatedComment;
+
+      if (hasLiked) {
+        // remove like
+        updatedComment = await Comment.findByIdAndUpdate(
+          commentId,
+          { $pull: { likedBy: userId }, $inc: { 'stats.likes': -1 } },
+          { new: true },
+        );
+      } else {
+        updatedComment = await Comment.findByIdAndUpdate(
+          commentId,
+          { $addToSet: { likedBy: userId }, $inc: { 'stats.likes': +1 } },
+          { new: true },
+        );
+      }
+
+      return {
+        comment: updatedComment,
+        message: hasLiked ? 'Like removed.' : 'Like added.',
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
   update() {
     return 'UPDATE COMMENT';
   }

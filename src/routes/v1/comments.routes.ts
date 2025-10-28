@@ -28,8 +28,23 @@ router.get('/is-liked', async (req, res, next) => {
   const { commentId, userId } = req.query;
   try {
     if (!(commentId && userId))
-      throw new InvalidParameterError("Parameters aren't invalid");
+      throw new InvalidParameterError('Parameters are invalid');
     const result = await commentsController.isLiked(
+      commentId as string,
+      userId as string,
+    );
+    return res.status(202).send(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/update-like', async (req, res, next) => {
+  const { commentId, userId } = req.query;
+  try {
+    if (!(commentId && userId))
+      throw new InvalidParameterError('Parameters are invalid');
+    const result = await commentsController.updateLike(
       commentId as string,
       userId as string,
     );

@@ -11,7 +11,7 @@ export interface IPost {
     commentsCount: number;
     views: number;
   };
-  likedBy?: string[];
+  likedBy: string[];
   commentsPreview?: {
     _id: string;
     authorId: string;

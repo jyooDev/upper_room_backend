@@ -60,7 +60,7 @@ class PostsController {
       }
 
       return {
-        comment: updatedPost,
+        post: updatedPost,
         message: hasLiked ? 'Like removed.' : 'Like added.',
       };
     } catch (error) {

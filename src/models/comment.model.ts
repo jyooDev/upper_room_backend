@@ -4,10 +4,10 @@ export interface IComment {
   post: string;
   comment: string;
   author: string;
-  stats: {
+  stats?: {
     likes: number;
   };
-  likedBy: string[];
+  likedBy?: string[];
 }
 
 const commentSchema = new Schema(
@@ -30,12 +30,11 @@ const commentSchema = new Schema(
         default: 0,
       },
     },
-    likedBy: [
-      {
-        type: String,
-        ref: 'User',
-      },
-    ],
+    likedBy: {
+      type: [String],
+      ref: 'User',
+      default: [],
+    },
     deletedAt: {
       type: Date,
       default: null,

@@ -5,8 +5,16 @@ import Logger from '../utils/logger';
 const logger = new Logger('/src/controllers/comments.controller.ts');
 
 class CommentsController {
-  create() {
-    return 'CREATE COMMENT';
+  async create(commentPayload: IComment) {
+    try {
+      const comment = await Comment.create(commentPayload);
+      return {
+        comment,
+        message: `comment ${comment._id} created successfully.`,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   read() {
@@ -19,6 +27,22 @@ class CommentsController {
       return {
         comments,
         message: `Comments for ${postId} fetched successfully.`,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async readById(commentId: string) {
+    try {
+      const comment = await Comment.findById(commentId);
+      let message;
+      if (!comment) {
+        throw new NotFoundError(`Comment ${commentId} not found.`);
+      }
+      return {
+        comment,
+        message: `Comment ${commentId} fetched successfully.`,
       };
     } catch (error) {
       throw error;
@@ -50,7 +74,7 @@ class CommentsController {
       const comment = await Comment.findById(commentId);
       if (!comment) throw new NotFoundError(`Comment ${commentId} not found.`);
 
-      const hasLiked = comment.likedBy.some(
+      const hasLiked = comment.likedBy?.some(
         (id: any) => String(id) === String(userId),
       );
       let updatedComment;
@@ -79,12 +103,58 @@ class CommentsController {
     }
   }
 
-  update() {
-    return 'UPDATE COMMENT';
+  async update(commentId: string, comment: string) {
+    try {
+      const updatedComment = await Comment.findByIdAndUpdate(
+        commentId,
+        { comment },
+        { new: true, runValidators: true },
+      );
+
+      if (!updatedComment) {
+        throw new NotFoundError(`Comment ${commentId} not found.`);
+      }
+      return {
+        message: `Comment ${commentId} updated successfully`,
+        comment: updatedComment,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
-  delete() {
-    return 'DELETE COMMENT';
+  async hardDelete(commentId: string) {
+    const comment = await Comment.findByIdAndDelete(commentId);
+    try {
+      if (!comment) {
+        throw new NotFoundError(`comment ${commentId} Not Found.`);
+      }
+      return {
+        comment,
+        message: `Successfully deleted comment ${commentId} permanetly`,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async softDelete(commentId: string) {
+    const comment = await Comment.findByIdAndUpdate(
+      commentId,
+      { deletedAt: new Date() },
+      { new: true },
+    );
+    try {
+      if (!comment) {
+        throw new NotFoundError(`comment ${commentId} Not Found.`);
+      }
+      return {
+        comment,
+        message: `Successfully soft deleted comment ${commentId}`,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

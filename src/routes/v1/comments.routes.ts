@@ -11,10 +11,16 @@ const logger = new Logger('/src/routes/v1/comments.routes.ts');
 
 router.get('', async (req, res, next) => {
   let result;
-  const { postId } = req.query;
+  const { postId, commentId } = req.query;
   try {
     if (postId && typeof postId === 'string' && postId.trim() !== '') {
       result = await commentsController.readByPost(postId); // post coomment
+    } else if (
+      commentId &&
+      typeof commentId === 'string' &&
+      commentId.trim() !== ''
+    ) {
+      result = await commentsController.readById(commentId);
     } else {
       result = await commentsController.read(); //all posts
     }
@@ -54,16 +60,46 @@ router.put('/update-like', async (req, res, next) => {
   }
 });
 
-router.post('/', (req, res) => {
-  res.send(commentsController.create());
+router.post('', async (req, res, next) => {
+  const commentReq = req.body.comment;
+  try {
+    const result = await commentsController.create({ ...commentReq });
+    return res.status(202).send(result);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.put('/:commentId', (req, res) => {
-  res.send(commentsController.update());
+router.put('/:commentId', async (req, res, next) => {
+  const { commentId } = req.params;
+  const { comment } = req.body;
+  console.log(commentId);
+  try {
+    const result = await commentsController.update(commentId, comment);
+    return res.status(202).send(result);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.delete('/:commentId', (req, res) => {
-  res.send(commentsController.delete());
+router.delete('/:commentId/hard', async (req, res, next) => {
+  const { commentId } = req.params;
+  try {
+    const result = await commentsController.hardDelete(commentId as string);
+    return res.status(202).send(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:commentId', async (req, res, next) => {
+  const { commentId } = req.params;
+  try {
+    const result = await commentsController.softDelete(commentId as string);
+    return res.status(202).send(result);
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;

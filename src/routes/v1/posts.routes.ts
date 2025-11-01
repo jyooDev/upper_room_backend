@@ -8,7 +8,7 @@ const router = Router();
 const postsController = new PostsController();
 const logger = new Logger('/src/routes/v1/posts.routes.ts');
 
-router.get('/', async (req, res, next) => {
+router.get('', async (req, res, next) => {
   let result;
   const { orgId } = req.query;
   try {
@@ -23,7 +23,16 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.get('/public', async (req, res, next) => {
+  try {
+    const result = await postsController.readByVisibility('PUBLIC');
+    return res.status(202).send(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('', async (req, res, next) => {
   try {
     const postReq = req.body.post;
     logger.debug(`POST /api/v1/users/`);

@@ -21,7 +21,7 @@ class PostsController {
 
   async readByOrganization(organizationId: string) {
     try {
-      const posts = await Post.find({ organizationId: organizationId });
+      const posts = await Post.find({ organizationId });
       return {
         posts,
         message: `Posts for ${organizationId} fetched successfully.`,
@@ -29,6 +29,16 @@ class PostsController {
     } catch (error) {
       throw error;
     }
+  }
+
+  async readByVisibility(visibility: string) {
+    try {
+      const posts = await Post.find({ visibility });
+      return {
+        posts,
+        message: `All ${visibility.toUpperCase()} posts fetched successfully. `,
+      };
+    } catch (error) {}
   }
 
   async updateLike(postId: string, userId: string) {

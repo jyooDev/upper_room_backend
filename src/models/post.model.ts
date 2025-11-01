@@ -8,7 +8,7 @@ export interface IPost {
   };
   stats: {
     likes: number;
-    commentsCount: number;
+    comments: number;
     views: number;
   };
   likedBy: string[];
@@ -51,7 +51,7 @@ const postSchema = new Schema(
     stats: {
       likes: { type: Number, default: 0 },
       views: { type: Number, default: 0 },
-      commentsCount: { type: Number, default: 0 },
+      comments: { type: Number, default: 0 },
     },
     likedBy: {
       type: String,

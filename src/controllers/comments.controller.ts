@@ -11,7 +11,7 @@ class CommentsController {
       const comment = await Comment.create(commentPayload);
       const { post } = commentPayload;
       await Post.findByIdAndUpdate(post, {
-        $inc: { 'stats.commentsCount': 1 },
+        $inc: { 'stats.comments': 1 },
       });
 
       return {
@@ -139,7 +139,7 @@ class CommentsController {
       const postId = comment.post;
       if (postId) {
         await Post.findByIdAndUpdate(postId, {
-          $inc: { 'stats.commentsCount': -1 },
+          $inc: { 'stats.comments': -1 },
         });
       }
 
@@ -167,7 +167,7 @@ class CommentsController {
       const postId = comment.post;
       if (postId) {
         await Post.findByIdAndUpdate(postId, {
-          $inc: { 'stats.commentsCount': -1 },
+          $inc: { 'stats.comments': -1 },
         });
       }
 

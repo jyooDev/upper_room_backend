@@ -1,5 +1,6 @@
 import NotFoundError from '../errors/NotFoundError';
 import Comment, { IComment } from '../models/comment.model';
+import Post from '../models/post.model';
 import Logger from '../utils/logger';
 
 const logger = new Logger('/src/controllers/comments.controller.ts');
@@ -8,6 +9,11 @@ class CommentsController {
   async create(commentPayload: IComment) {
     try {
       const comment = await Comment.create(commentPayload);
+      const { post } = commentPayload;
+      await Post.findByIdAndUpdate(post, {
+        $inc: { 'stats.commentsCount': 1 },
+      });
+
       return {
         comment,
         message: `comment ${comment._id} created successfully.`,
@@ -80,7 +86,6 @@ class CommentsController {
       let updatedComment;
 
       if (hasLiked) {
-        // remove like
         updatedComment = await Comment.findByIdAndUpdate(
           commentId,
           { $pull: { likedBy: userId }, $inc: { 'stats.likes': -1 } },
@@ -124,14 +129,23 @@ class CommentsController {
   }
 
   async hardDelete(commentId: string) {
-    const comment = await Comment.findByIdAndDelete(commentId);
     try {
+      const comment = await Comment.findByIdAndDelete(commentId);
+
       if (!comment) {
-        throw new NotFoundError(`comment ${commentId} Not Found.`);
+        throw new NotFoundError(`Comment ${commentId} not found.`);
       }
+
+      const postId = comment.post;
+      if (postId) {
+        await Post.findByIdAndUpdate(postId, {
+          $inc: { 'stats.commentsCount': -1 },
+        });
+      }
+
       return {
         comment,
-        message: `Successfully deleted comment ${commentId} permanetly`,
+        message: `Successfully deleted comment ${commentId} permanently.`,
       };
     } catch (error) {
       throw error;
@@ -139,15 +153,24 @@ class CommentsController {
   }
 
   async softDelete(commentId: string) {
-    const comment = await Comment.findByIdAndUpdate(
-      commentId,
-      { deletedAt: new Date() },
-      { new: true },
-    );
     try {
+      const comment = await Comment.findByIdAndUpdate(
+        commentId,
+        { deletedAt: new Date() },
+        { new: true },
+      );
+
       if (!comment) {
         throw new NotFoundError(`comment ${commentId} Not Found.`);
       }
+
+      const postId = comment.post;
+      if (postId) {
+        await Post.findByIdAndUpdate(postId, {
+          $inc: { 'stats.commentsCount': -1 },
+        });
+      }
+
       return {
         comment,
         message: `Successfully soft deleted comment ${commentId}`,

@@ -51,7 +51,6 @@ router.get('/is-liked', async (req, res, next) => {
 });
 
 router.put('/update-like', async (req, res, next) => {
-  console.log(req.body);
   const { postId, userId } = req.body.params;
   try {
     if (!(postId && userId))
@@ -72,6 +71,19 @@ router.put('/:postId', (req, res) => {
 
 router.delete('/:postId', (req, res) => {
   res.send(postsController.delete());
+});
+
+router.put('/update-view/:postId', async (req, res, next) => {
+  const { postId } = req.params;
+  try {
+    if (!postId) {
+      throw new InvalidParameterError('Parameters are invalid');
+    }
+    const result = await postsController.updateView(postId as string);
+    return res.status(202).send(result);
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;

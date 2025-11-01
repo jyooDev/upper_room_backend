@@ -86,6 +86,27 @@ class PostsController {
     }
   }
 
+  async updateView(postId: string) {
+    try {
+      const post = await Post.findById(postId);
+      if (!post) throw new NotFoundError(`Post ${postId} not found.`);
+      const updatedView = await Post.findByIdAndUpdate(
+        postId,
+        { $inc: { 'stats.views': 1 } },
+        { new: true },
+      );
+
+      console.log(updatedView);
+
+      return {
+        post: updatedView,
+        message: 'Successfully udpated view',
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
   read() {
     return 'LIST POST';
   }

@@ -1,0 +1,28 @@
+### GET COMMENT BY COMMENT ID
+GET http://localhost:8888/api/v1/comments?commentId=69042831016a681d7bc5494c
+
+
+### SOFT DELETE COMMENT BY COMMENT ID
+DELETE http://localhost:8888/api/v1/comments/69042831016a681d7bc5494c/hard
+
+
+### PUT COMMENT BY COMMENT ID
+PUT http://localhost:8888/api/v1/comments/68fd2c737faf21a5e6f5fd6d
+Content-Type: application/json
+
+{
+  "comment": "Updated comment!"
+}
+
+
+### CREATE COMMENT
+POST http://localhost:8888/api/v1/comments
+Content-Type: application/json
+
+{
+  "comment": {
+    "post": "68fd1865e7aae70c739e6258",
+    "comment": "Amazing Post!!",
+    "author": "RaX8OLgQoEVn9G5pBWwdn2T8fVH3"
+  }
+}

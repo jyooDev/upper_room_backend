@@ -28,7 +28,6 @@ const sermonSchema = new Schema(
     },
     audioUrl: {
       type: String,
-      required: true,
     },
     transcripts: [
       {
@@ -50,4 +49,5 @@ const sermonSchema = new Schema(
   },
 );
 
-export const Sermon = model<ISermon>('Sermon', sermonSchema);
+const Sermon = model<ISermon>('Sermon', sermonSchema);
+export default Sermon;

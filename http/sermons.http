@@ -1,0 +1,29 @@
+### GET SERMONS BY ORGANIZATION ID
+GET http://localhost:8888/api/v1/sermons?orgId=68d84f27d9c93cabd1fa7992
+Content-Type: application/json
+
+### GET ALL SERMONS
+GET http://localhost:8888/api/v1/sermons
+Content-Type: application/json
+
+### GET SERMONS BY VISIBILITY
+GET http://localhost:8888/api/v1/sermons?visibility=PUBLIC
+Content-Type: application/json
+
+### GET SERMONS BY Sermon ID
+GET http://localhost:8888/api/v1/sermons/{_id}
+Content-Type: application/json
+
+### CREATE SERMON
+POST http://localhost:8888/api/v1/sermons
+Content-Type: application/json  
+
+{ 
+    "sermon": {
+        "organizationId": "{organizationId}",
+        "pastorId": "{pastorId}",
+        "title": "Sermon Title",
+        "visibility": "PUBLIC",
+        "originalLanguage": "English"
+    }
+}

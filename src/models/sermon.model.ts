@@ -1,47 +1,95 @@
-import { model, Schema } from 'mongoose';
+import { Types, model, Schema } from 'mongoose';
+
+export type SermonStatus = 'SCHEDULED' | 'LIVE' | 'ENDED' | 'RECORDED';
 
 export interface ISermon {
-  pastorId: string;
-  organizationId: string;
+  pastorName: string;
+  organizationId: Types.ObjectId;
+
   title: string;
-  audioUrl: string;
-  transcript: [];
-  original_language: string;
+  originalLanguage: string;
   visibility: 'PUBLIC' | 'PRIVATE';
+
+  status: SermonStatus;
+
+  roomName?: string;
+
+  audioUrl?: string;
+  transcripts?: {
+    language: string;
+    url: string;
+  }[];
+
+  scheduledAt?: Date;
+  startedAt?: Date;
+  endedAt?: Date;
 }
 
-const sermonSchema = new Schema(
+const sermonSchema = new Schema<ISermon>(
   {
-    pastorId: {
+    pastorName: {
       type: String,
-      ref: 'User',
       required: true,
     },
+
     organizationId: {
       type: Schema.Types.ObjectId,
       ref: 'Organization',
       required: true,
     },
+
     title: {
       type: String,
       required: true,
+      trim: true,
     },
-    audioUrl: {
-      type: String,
-    },
-    transcripts: [
-      {
-        type: String,
-      },
-    ],
+
     originalLanguage: {
       type: String,
       required: true,
     },
+
     visibility: {
       type: String,
       enum: ['PUBLIC', 'PRIVATE'],
       required: true,
+    },
+
+    status: {
+      type: String,
+      enum: ['SCHEDULED', 'LIVE', 'ENDED', 'RECORDED'],
+      required: true,
+      default: 'LIVE',
+      index: true,
+    },
+
+    roomName: {
+      type: String,
+      index: true,
+    },
+
+    audioUrl: {
+      type: String,
+    },
+
+    transcripts: [
+      {
+        language: { type: String },
+        url: { type: String },
+      },
+    ],
+
+    scheduledAt: {
+      type: Date,
+    },
+
+    startedAt: {
+      type: Date,
+      default: Date.now,
+    },
+
+    endedAt: {
+      type: Date,
     },
   },
   {

@@ -39,16 +39,27 @@ router.get('/:_id', async (req, res, next) => {
   }
 });
 
-// POST api/v1/sermons
-router.post('', async (req, res, next) => {
+// POST api/v1/sermons/start-live
+router.post('/start-live', async (req, res, next) => {
   try {
     const sermonReq = req.body.sermon;
-    const result = await sermonsController.create({ ...sermonReq });
+    const result = await sermonsController.startLiveSermon({ ...sermonReq });
     res.status(201).send(result);
   } catch (error) {
     next(error);
   }
 });
+
+// POST api/v1/sermons
+// router.post('', async (req, res, next) => {
+//   try {
+//     const sermonReq = req.body.sermon;
+//     const result = await sermonsController.create({ ...sermonReq });
+//     res.status(201).send(result);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 // PUT api/v1/sermons/
 // router.put('/org-:orgId/:sermonId', (req, res) => {

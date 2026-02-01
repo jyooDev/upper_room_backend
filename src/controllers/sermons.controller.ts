@@ -1,28 +1,55 @@
 import Sermon, { ISermon } from '../models/sermon.model';
 import Organization from '../models/organization.model';
 import Logger from '../utils/logger';
-
+import { Types } from 'mongoose';
 const logger = new Logger('/src/controllers/sermons.controller.ts');
 
+export interface StartLiveSermonPayload {
+  organizationId: string;
+
+  pastorName: string;
+  title: string;
+
+  originalLanguage: string;
+  visibility: 'PUBLIC' | 'PRIVATE';
+}
+
 class SermonsController {
-  async create(sermonPayload: ISermon) {
+  async startLiveSermon(sermonPayload: StartLiveSermonPayload) {
     try {
-      if (sermonPayload.organizationId) {
-        const organization = await Organization.findById(
-          sermonPayload.organizationId,
+      const organization = await Organization.findById(
+        sermonPayload.organizationId,
+      );
+      if (!organization) {
+        throw new Error(
+          `Organization with ID ${sermonPayload.organizationId} not found.`,
         );
-        if (!organization) {
-          throw new Error(
-            `Organization with ID ${sermonPayload.organizationId} not found.`,
-          );
-        }
       }
-      const sermon = await Sermon.create(sermonPayload);
+
+      const sermonId = new Types.ObjectId();
+
+      const newSermon = await Sermon.create({
+        _id: sermonId,
+        pastorName: sermonPayload.pastorName,
+        organizationId: sermonPayload.organizationId,
+        title: sermonPayload.title,
+        originalLanguage: sermonPayload.originalLanguage,
+        visibility: sermonPayload.visibility,
+
+        status: 'LIVE',
+        roomName: `sermon-${sermonId.toString()}`,
+        startedAt: Date.now(),
+      });
+
+      logger.debug(
+        `Live sermon started: ${newSermon._id} by Pastor ${newSermon.pastorName}`,
+      );
+
       return {
-        sermon,
-        message: `Sermon (${sermon._id}) created successfully.`,
+        sermonId: newSermon._id.toString(),
       };
     } catch (error) {
+      logger.error('Error starting live sermon:', error);
       throw error;
     }
   }

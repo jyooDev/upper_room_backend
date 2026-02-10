@@ -1,8 +1,7 @@
 import { Router } from 'express';
 
 import { SermonsController } from '../../controllers';
-import logger from '../../utils/logger';
-import { error } from 'console';
+import { verifyToken, verifyOrgRole } from '../../middlewares';
 
 const router = Router({ mergeParams: true });
 const sermonsController = new SermonsController();
@@ -39,8 +38,8 @@ router.get('/:_id', async (req, res, next) => {
   }
 });
 
-// POST api/v1/sermons/start-live
-router.post('/start-live', async (req, res, next) => {
+// POST api/v1/sermons/start-live — requires auth + org role (pastor/organizer/manager)
+router.post('/start-live', verifyToken, verifyOrgRole, async (req, res, next) => {
   try {
     const sermonReq = req.body.sermon;
     const result = await sermonsController.startLiveSermon({ ...sermonReq });

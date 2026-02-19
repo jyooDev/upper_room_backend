@@ -11,14 +11,14 @@ import mongoose from 'mongoose';
 //     members?: [string];
 // }
 
-const organizations: [IOrganization] = [
+const organizations: IOrganization[] = [
   {
     organizer: 'RaX8OLgQoEVn9G5pBWwdn2T8fVH3',
     name: 'Young Adult Ministry',
-    denomination: new mongoose.Types.ObjectId('68c0ca2bb653857d1a414a98'),
+    denomination: new mongoose.Types.ObjectId('68c0ca2bb653857d1a414a98') as any,
     logoURL:
       'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjAzMjFfMjQ0%2FMDAxNjQ3ODQxNzYxNTcy.NwhMIsFFHs-a7NjxSTZAQvX9C59aHv5VuxZ1Nb4UAYcg.ih32G-R66cZRXcv7y3JjWGf6Vb_eNDCYN4gJU-p0pUsg.JPEG.network5891%2F%25B4%25EB%25C3%25B5%25BC%25D2%25B8%25C1%25B0%25A8%25B8%25AE.jpg&type=sc960_832',
-    memberss: ['mFxEx0iSyfX9D4pM3DC2ldp7ifu2'],
+    members: ['mFxEx0iSyfX9D4pM3DC2ldp7ifu2'],
   },
 ];
 
